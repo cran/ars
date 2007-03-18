@@ -1,6 +1,7 @@
-ars<-function(f,fprima,x=c(-4,1,4),ns=100,m=3,emax=64,lb=FALSE,ub=FALSE,xlb=0,xub=0,...)
+#--------------------------------------------------------------------------------------------
+ars<-function(n=1,f,fprima,x=c(-4,1,4),ns=100,m=3,emax=64,lb=FALSE,ub=FALSE,xlb=0,xub=0,...)
 {
-  mysample<-NaN
+  mysample<-rep(0,n)
   iwv<-rep(0,ns+7)
   rwv<-rep(0,6*(ns+1)+9)
   hx<-f(x,...)
@@ -15,19 +16,22 @@ ars<-function(f,fprima,x=c(-4,1,4),ns=100,m=3,emax=64,lb=FALSE,ub=FALSE,xlb=0,xu
                   rwv=as.double(rwv))
   if(initial$ifault==0)
   {
-   h<-function(x) f(x,...)
-   hprima<-function(x) fprima(x,...)
-   sample<-.C("sample_",as.integer(initial$iwv),as.double(initial$rwv),h,hprima,new.env(),
-               beta=as.double(0),ifault=as.integer(0))
-   if(sample$ifault==0)
-   {
-     mysample<-sample$beta  
-   }
-   else
-   {
-      cat("\nError in sobroutine sample_...") 
-      cat("\nifault=",sample$ifault,"\n")
-   }
+    h<-function(x) f(x,...)
+    hprima<-function(x) fprima(x,...)
+    for(i in 1:n)
+    {
+       sample<-.C("sample_",as.integer(initial$iwv),as.double(initial$rwv),h,hprima,new.env(),
+                  beta=as.double(0),ifault=as.integer(0))
+       if(sample$ifault==0)
+       {
+          mysample[i]<-sample$beta  
+       }
+       else
+       {
+         cat("\nError in sobroutine sample_...") 
+         cat("\nifault=",sample$ifault,"\n")
+       }
+    }
   }
   else
   {
@@ -35,4 +39,22 @@ ars<-function(f,fprima,x=c(-4,1,4),ns=100,m=3,emax=64,lb=FALSE,ub=FALSE,xlb=0,xu
       cat("\nifault=",initial$ifault,"\n")      
   }
   return(mysample)
+}
+
+#--------------------------------------------------------------------------------------------
+.onAttach <- function(library, pkg)
+{
+  Rv <- R.Version()
+  if(Rv$major < 2 |(Rv$major == 2 && Rv$minor < 4.0))
+    stop("This package requires R 2.4.0 or later")
+  assign(".ars.home", file.path(library, pkg),
+         pos=match("package:ars", search()))
+  ars.version <- "0.2 (2007-03-18)"
+  assign(".ars.version", ars.version, pos=match("package:ars", search()))
+  if(interactive())
+  {
+    cat(paste("Package 'ars', ", ars.version, ". ",sep=""))
+    cat("Type 'help(ars)' for summary information\n")
+  }
+  invisible()
 }
