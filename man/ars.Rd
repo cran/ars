@@ -13,7 +13,7 @@ ars(n=1,f,fprima,x=c(-4,1,4),ns=100,m=3,emax=64,lb=FALSE,ub=FALSE,xlb=0,xub=0,..
   \item{fprima}{d/du log(f(u,...))}
   \item{x}{some starting points in wich log(f(u,...) is defined}
   \item{ns}{maximum number of points defining the hulls}
-  \item{m} {number of starting points}
+  \item{m}{number of starting points}
   \item{emax}{large value for which it is possible to compute an exponential}
   \item{lb}{boolean indicating if there is a lower bound to the domain}
   \item{xlb}{value of the lower bound }
@@ -23,27 +23,28 @@ ars(n=1,f,fprima,x=c(-4,1,4),ns=100,m=3,emax=64,lb=FALSE,ub=FALSE,xlb=0,xub=0,..
 }
 \details{
   \bold{ifault codes, subroutine initial}
-
+  \enumerate{
   \item{0:}{successful initialisation}
   \item{1:}{not enough starting points}
   \item{2:}{ns is less than m}
   \item{3:}{no abscissae to left of mode (if lb = false)}
   \item{4:}{no abscissae to right of mode (if ub = false)}
   \item{5:}{non-log-concavity detect}
- 
+  }
   \bold{ifault codes, subroutine sample}
-
+  \enumerate{
   \item{0:}{successful sampling}
   \item{5:}{non-concavity detected}
   \item{6:}{random number generator generated zero}
   \item{7:}{numerical instability}
+  }
 }
 \value{
 a sampled value from density 
 }
 \references{
 Gilks, W.R., P. Wild. (1992)
-Adaptive Rejection Sampling  for Gibbs Sampling,\emph{Applied Statistics}
+Adaptive Rejection Sampling  for Gibbs Sampling, \emph{Applied Statistics}
   \bold{41}:337--348.
 }
 

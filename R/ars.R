@@ -24,6 +24,12 @@ ars<-function(n=1,f,fprima,x=c(-4,1,4),ns=100,m=3,emax=64,lb=FALSE,ub=FALSE,xlb=
                   beta=as.double(0),ifault=as.integer(0))
        if(sample$ifault==0)
        {
+          if(i<ns)
+          {
+            x<-c(x,sample$beta)                          #Add the sampled point to the support and update h and hprima
+            h<-function(x) f(x,...)
+            hprima<-function(x) fprima(x,...)
+          }
           mysample[i]<-sample$beta  
        }
        else
@@ -49,7 +55,7 @@ ars<-function(n=1,f,fprima,x=c(-4,1,4),ns=100,m=3,emax=64,lb=FALSE,ub=FALSE,xlb=
     stop("This package requires R 2.4.0 or later")
   assign(".ars.home", file.path(library, pkg),
          pos=match("package:ars", search()))
-  ars.version <- "0.2 (2007-03-18)"
+  ars.version <- "0.3 (2009-01-25)"
   assign(".ars.version", ars.version, pos=match("package:ars", search()))
   if(interactive())
   {
