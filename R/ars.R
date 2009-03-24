@@ -51,11 +51,11 @@ ars<-function(n=1,f,fprima,x=c(-4,1,4),ns=100,m=3,emax=64,lb=FALSE,ub=FALSE,xlb=
 .onAttach <- function(library, pkg)
 {
   Rv <- R.Version()
-  if(Rv$major < 2 |(Rv$major == 2 && Rv$minor < 4.0))
+  if(!exists("getRversion", baseenv()) || (getRversion() < "2.4.0"))
     stop("This package requires R 2.4.0 or later")
   assign(".ars.home", file.path(library, pkg),
          pos=match("package:ars", search()))
-  ars.version <- "0.3 (2009-01-25)"
+  ars.version <- "0.4 (2009-03-24)"
   assign(".ars.version", ars.version, pos=match("package:ars", search()))
   if(interactive())
   {
