@@ -51,16 +51,16 @@ ars<-function(n=1,f,fprima,x=c(-4,1,4),ns=100,m=3,emax=64,lb=FALSE,ub=FALSE,xlb=
 .onAttach <- function(library, pkg)
 {
   Rv <- R.Version()
-  if(!exists("getRversion", baseenv()) || (getRversion() < "2.4.0"))
-    stop("This package requires R 2.4.0 or later")
+  if(!exists("getRversion", baseenv()) || (getRversion() < "3.1.2"))
+    stop("This package requires R 3.1.2 or later")
   assign(".ars.home", file.path(library, pkg),
          pos=match("package:ars", search()))
-  ars.version <- "0.4 (2009-03-24)"
+  ars.version <- "0.5 (2014-12-03)"
   assign(".ars.version", ars.version, pos=match("package:ars", search()))
   if(interactive())
   {
-    cat(paste("Package 'ars', ", ars.version, ". ",sep=""))
-    cat("Type 'help(ars)' for summary information\n")
+    packageStartupMessage(paste("Package 'ars', ", ars.version, ". ",sep=""),appendLF=TRUE)
+    packageStartupMessage("Type 'help(ars)' for summary information",appendLF=TRUE)
   }
   invisible()
 }

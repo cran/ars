@@ -608,7 +608,7 @@ namespace ARS{
 	
 	int control_count = 0;                                                                                           /* added by AK */
 	while (ipt[i__] != 0) {
-		if (control_count > *n) throw returnR("Trap in ARS: infinite while in update_ of ars.cpp near l. 810", 1);   /* added by AK */
+		if (control_count > *n) error("Trap in ARS: infinite while in update_ of ars.cpp near l. 810\n");   /* added by AK */
 		control_count++;                                                                                             /* added by AK */
 		dh = huz[j] - huz[i__];
 		horiz = (d__1 = hpx[i__], fabs(d__1)) < *eps;
@@ -780,7 +780,7 @@ namespace ARS{
 	}    /** end of while (! sampld) **/
         //Necesario al terminar de utilizar los generadores de numeros aleatorios del R
 	PutRNGstate();
-	if (attempts >= max_attempt) throw returnR("Trap in ARS: Maximum number of attempts reached by routine spl1_", 1); 
+	if (attempts >= max_attempt) error ("Trap in ARS: Maximum number of attempts reached by routine spl1_\n"); 
 	return;
 	} /* end of the routine spl1_ */
 
