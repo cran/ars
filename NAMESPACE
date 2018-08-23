@@ -1,2 +1,2 @@
-useDynLib(ars)
+useDynLib(ars, .registration=TRUE)
 export(ars)
