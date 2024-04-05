@@ -13,7 +13,8 @@ ars<-function(n=1,f,fprima,x=c(-4,1,4),ns=100,m=3,emax=64,lb=FALSE,ub=FALSE,xlb=
                   as.integer(ub),as.double(xub),
                   ifault=as.integer(0),
                   iwv=as.integer(iwv),
-                  rwv=as.double(rwv))
+                  rwv=as.double(rwv),
+                  PACKAGE="ars")
   if(initial$ifault==0)
   {
     h<-function(x) f(x,...)
@@ -21,7 +22,8 @@ ars<-function(n=1,f,fprima,x=c(-4,1,4),ns=100,m=3,emax=64,lb=FALSE,ub=FALSE,xlb=
     for(i in 1:n)
     {
        sample<-.C("sample_",as.integer(initial$iwv),as.double(initial$rwv),h,hprima,new.env(),
-                  beta=as.double(0),ifault=as.integer(0))
+                  beta=as.double(0),ifault=as.integer(0),
+       		  PACKAGE="ars")
        if(sample$ifault==0)
        {
           if(i<ns)
@@ -51,12 +53,17 @@ ars<-function(n=1,f,fprima,x=c(-4,1,4),ns=100,m=3,emax=64,lb=FALSE,ub=FALSE,xlb=
 .onAttach <- function(library, pkg)
 {
   Rv <- R.Version()
+  
   if(!exists("getRversion", baseenv()) || (getRversion() < "3.1.2"))
     stop("This package requires R 3.1.2 or later")
-  assign(".ars.home", file.path(library, pkg),
-         pos=match("package:ars", search()))
-  ars.version <- "0.5 (2014-12-03)"
-  assign(".ars.version", ars.version, pos=match("package:ars", search()))
+  
+  #assign(".ars.home", file.path(library, pkg),
+  #       pos=match("package:ars", search()))
+  
+  ars.version <- "0.7 (2024-04-04)"
+  
+  #assign(".ars.version", ars.version, pos=match("package:ars", search()))
+ 
   if(interactive())
   {
     packageStartupMessage(paste("Package 'ars', ", ars.version, ". ",sep=""),appendLF=TRUE)

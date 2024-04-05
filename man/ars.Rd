@@ -23,7 +23,7 @@ ars(n=1,f,fprima,x=c(-4,1,4),ns=100,m=3,emax=64,lb=FALSE,ub=FALSE,xlb=0,xub=0,..
 }
 \details{
   \bold{ifault codes, subroutine initial}
-  \enumerate{
+  \describe{
   \item{0:}{successful initialisation}
   \item{1:}{not enough starting points}
   \item{2:}{ns is less than m}
@@ -32,7 +32,7 @@ ars(n=1,f,fprima,x=c(-4,1,4),ns=100,m=3,emax=64,lb=FALSE,ub=FALSE,xlb=0,xub=0,..
   \item{5:}{non-log-concavity detect}
   }
   \bold{ifault codes, subroutine sample}
-  \enumerate{
+  \describe{
   \item{0:}{successful sampling}
   \item{5:}{non-concavity detected}
   \item{6:}{random number generator generated zero}
