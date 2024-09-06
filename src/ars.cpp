@@ -2,8 +2,8 @@
 //
 //    AUTHOR:  Arnost Komarek (my name in TeX: Arno\v{s}t Kom\'arek)
 //              akom@email.cz
-//    Modificado por: Paulino Perez Rodriguez
-//    Fecha: 17/02/07
+//    Modified by: Paulino Perez Rodriguez
+//    Date: 02/17/2007
 //    PURPOSE: Adaptive rejection sampling 
 //
 /* ********************************************************************************* */
@@ -15,26 +15,26 @@ extern "C" {
 
 namespace ARS{
 
-        /*Funcion para evaluar hx*/
-        /*x el punto en el que se evalua la funcion*/
+        /*Function to evaluate h(x)*/
+        /*x the point where the function is evaluated*/
         /* rho : R environment in which func is evaluated */
         double evalhx(SEXP h, double x, SEXP rho)
 	{
 	   double y;
 	   SEXP R_fcall, arg;
 	
-          /* evaluacion de la funcion */
-	  PROTECT(R_fcall = lang2(h, R_NilValue));
+          /* evaluation of the function */
+	  PROTECT(R_fcall = Rf_lang2(h, R_NilValue));
 	  PROTECT(arg = NEW_NUMERIC(1));
 	  NUMERIC_POINTER(arg)[0] = x;
 	  SETCADR(R_fcall, arg);
-	  y = REAL(eval(R_fcall, rho))[0];
+	  y = REAL(Rf_eval(R_fcall, rho))[0];
 	  UNPROTECT(2);
 	  return y;
 	}
 
-        /*Funcion para evaluar hprimax*/
-        /*x el punto en el que se evalua la funcion*/
+        /*Function to evaluate hprimax= d/dx h(x) */
+        /*x the point where the function is evaluated*/
         /* rho : R environment in which func is evaluated */
 
         double evalhprimax(SEXP hprima, double x, SEXP rho)
@@ -42,12 +42,12 @@ namespace ARS{
 	   double y;
 	   SEXP R_fcall, arg;
 	
-          /* evaluacion de la funcion */
-	  PROTECT(R_fcall = lang2(hprima, R_NilValue));
+          /* evaluation of the function */
+	  PROTECT(R_fcall = Rf_lang2(hprima, R_NilValue));
 	  PROTECT(arg = NEW_NUMERIC(1));
 	  NUMERIC_POINTER(arg)[0] = x;
 	  SETCADR(R_fcall, arg);
-	  y = REAL(eval(R_fcall, rho))[0];
+	  y = REAL(Rf_eval(R_fcall, rho))[0];
 	  UNPROTECT(2);
 	  return y;
 	}
@@ -608,7 +608,7 @@ namespace ARS{
 	
 	int control_count = 0;                                                                                           /* added by AK */
 	while (ipt[i__] != 0) {
-		if (control_count > *n) error("Trap in ARS: infinite while in update_ of ars.cpp near l. 810\n");   /* added by AK */
+		if (control_count > *n) Rf_error("Trap in ARS: infinite while in update_ of ars.cpp near l. 810\n");   /* added by AK */
 		control_count++;                                                                                             /* added by AK */
 		dh = huz[j] - huz[i__];
 		horiz = (d__1 = hpx[i__], fabs(d__1)) < *eps;
@@ -780,7 +780,7 @@ namespace ARS{
 	}    /** end of while (! sampld) **/
         //Necesario al terminar de utilizar los generadores de numeros aleatorios del R
 	PutRNGstate();
-	if (attempts >= max_attempt) error ("Trap in ARS: Maximum number of attempts reached by routine spl1_\n"); 
+	if (attempts >= max_attempt) Rf_error("Trap in ARS: Maximum number of attempts reached by routine spl1_\n"); 
 	return;
 	} /* end of the routine spl1_ */
 

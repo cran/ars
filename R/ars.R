@@ -60,7 +60,7 @@ ars<-function(n=1,f,fprima,x=c(-4,1,4),ns=100,m=3,emax=64,lb=FALSE,ub=FALSE,xlb=
   #assign(".ars.home", file.path(library, pkg),
   #       pos=match("package:ars", search()))
   
-  ars.version <- "0.7 (2024-04-04)"
+  ars.version <- "0.8 (2024-09-05)"
   
   #assign(".ars.version", ars.version, pos=match("package:ars", search()))
  
